@@ -1,0 +1,12 @@
+version: 2
+jobs:
+ build:
+   machine: true
+   steps:
+     - checkout
+
+     # build the application image
+     - run: docker build -t ambientinnovation/nginx-demo:$CIRCLE_BRANCH .
+
+     # deploy the image
+     - run: docker push ambientinnovation/nginx-demo:$CIRCLE_BRANCH
