@@ -53,7 +53,7 @@ jobs:
           az login -u $AZ_LOGIN -p $AZ_PASS
           az aks get-credentials --resource-group osram-training --name felix-test
 
-          kubectl -n marius patch deployment nginx-deployment -p '{"spec":{"template":{"spec":{"containers":[{"name":"nginx","image":"$FULL_DOCKER_IMAGE_NAME"}]}}}}'
+          kubectl -n marius patch deployment nginx-deployment -p '{"spec":{"template":{"spec":{"containers":[{"name":"nginx","image":"'$FULL_DOCKER_IMAGE_NAME'"}]}}}}'
 
 workflows:
   version: 2
