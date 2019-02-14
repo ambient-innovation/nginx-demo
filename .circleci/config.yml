@@ -36,10 +36,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install azure-cli
 
-          # login to azure
+          # login to azure and get kubeconfig
           az login -u $AZ_LOGIN -p $AZ_PASS
+          az aks get-credentials --resource-group osram-training --name felix-test
 
-          kubectl apply -n marius -f kubernetes/deployment.nginx.yaml
+          kubectl apply -n marius -f kubernetes/nginx.deployment.yaml
 
 workflows:
   version: 2
