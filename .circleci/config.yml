@@ -3,7 +3,7 @@ jobs:
   build:
     machine: true
     environment:
-      IMAGE_TAG: ambientinnovation/nginx-demo:$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM
+      IMAGE_TAG: "ambientinnovation/nginx-demo:$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM"
     steps:
       - checkout
 
