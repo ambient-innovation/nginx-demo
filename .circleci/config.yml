@@ -2,26 +2,28 @@ version: 2
 jobs:
   build:
     machine: true
-    environment:
-      IMAGE_TAG: "ambientinnovation/nginx-demo:$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM"
     steps:
       - checkout
 
       # build the application image
-      - run: docker build -t $IMAGE_TAG .
+      - run: |
+          echo "ambientinnovation/nginx-demo:$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM" > full_docker_image_name
+          FULL_DOCKER_IMAGE_NAME=$(cat full_docker_image_name)
+          docker build -t $FULL_DOCKER_IMAGE_NAME .
 
       # push the image
       - run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASS
-          docker push $IMAGE_TAG
+          docker push $FULL_DOCKER_IMAGE_NAME
 
   deploy:
     machine: true
-    environment:
-      IMAGE_TAG: ambientinnovation/nginx-demo:$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM
     steps:
       - checkout
       - run: |
+          # restore image name
+          FULL_DOCKER_IMAGE_NAME=$(cat full_docker_image_name)
+
           # install kubectl
           sudo apt-get update && sudo apt-get install -y apt-transport-https
           curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
@@ -44,7 +46,7 @@ jobs:
           az login -u $AZ_LOGIN -p $AZ_PASS
           az aks get-credentials --resource-group osram-training --name felix-test
 
-          kubectl -n marius patch deployment nginx-deployment -p '{"spec":{"template":{"spec":{"containers":[{"name":"nginx","image":"$IMAGE_TAG"}]}}}}'
+          kubectl -n marius patch deployment nginx-deployment -p '{"spec":{"template":{"spec":{"containers":[{"name":"nginx","image":"$FULL_DOCKER_IMAGE_NAME"}]}}}}'
 
 workflows:
   version: 2
