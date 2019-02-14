@@ -40,3 +40,15 @@ jobs:
           az login -u $AZ_LOGIN -p $AZ_PASS
 
           kubectl apply -n marius -f kubernetes/deployment.nginx.yaml
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
