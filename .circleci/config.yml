@@ -20,9 +20,11 @@ jobs:
     machine: true
     steps:
       - checkout
+      - attach_workspace:
+          at: workspace
       - run: |
           # restore image name
-          FULL_DOCKER_IMAGE_NAME=$(cat full_docker_image_name)
+          FULL_DOCKER_IMAGE_NAME=$(cat workspace/full_docker_image_name)
 
           # install kubectl
           sudo apt-get update && sudo apt-get install -y apt-transport-https
