@@ -6,14 +6,14 @@ jobs:
       - checkout
       - run: |
           # set and store image tag
-          echo "ambientinnovation/nginx-demo:$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM" > full_docker_image_name
+          echo "ambienttraining.azurecr.io/nginx-demo:$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM" > full_docker_image_name
           FULL_DOCKER_IMAGE_NAME=$(cat full_docker_image_name)
 
           # build the application image
           docker build -t $FULL_DOCKER_IMAGE_NAME .
 
           # push the image
-          docker login -u $DOCKER_USER -p $DOCKER_PASS
+          docker login ambienttraining.azurecr.io -u $AZ_REGISTRY_USER -p $AZ_REGISTRY_PASSWORD
           docker push $FULL_DOCKER_IMAGE_NAME
 
       - persist_to_workspace:
