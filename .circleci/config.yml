@@ -16,6 +16,11 @@ jobs:
           docker login -u $DOCKER_USER -p $DOCKER_PASS
           docker push $FULL_DOCKER_IMAGE_NAME
 
+      - persist_to_workspace:
+          root: .
+          paths:
+            - full_docker_image_name
+
   deploy:
     machine: true
     steps:
