@@ -6,7 +6,7 @@ jobs:
       - checkout
 
       # build the application image
-      - run: docker build -t ambientinnovation/nginx-demo:$CIRCLE_BRANCH .
+      - run: docker build -t ambientinnovation/nginx-demo:$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM .
 
       # push the image
       - run: |
@@ -40,7 +40,7 @@ jobs:
           az login -u $AZ_LOGIN -p $AZ_PASS
           az aks get-credentials --resource-group osram-training --name felix-test
 
-          kubectl apply -n marius -f kubernetes/nginx.deployment.yaml
+          kubectl -n marius patch deployment nginx-deployment -p '{"spec":{"template":{"spec":{"containers":[{"name":"nginx","image":"ambientinnovation/nginx-demo:$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM"}]}}}}'
 
 workflows:
   version: 2
