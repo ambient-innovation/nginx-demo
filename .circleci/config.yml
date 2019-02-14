@@ -4,15 +4,15 @@ jobs:
     machine: true
     steps:
       - checkout
-
-      # build the application image
       - run: |
+          # set and store image tag
           echo "ambientinnovation/nginx-demo:$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM" > full_docker_image_name
           FULL_DOCKER_IMAGE_NAME=$(cat full_docker_image_name)
+
+          # build the application image
           docker build -t $FULL_DOCKER_IMAGE_NAME .
 
-      # push the image
-      - run: |
+          # push the image
           docker login -u $DOCKER_USER -p $DOCKER_PASS
           docker push $FULL_DOCKER_IMAGE_NAME
 
