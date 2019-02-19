@@ -17,8 +17,9 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:1.7.9
+        image: ambienttraining.azurecr.io/nginx-demo:master-30
         ports:
         - containerPort: 80
       imagePullSecrets:
+      # https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-in-the-cluster-that-holds-your-authorization-token
       - name: regcred
