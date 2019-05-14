@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
-  namespace: marius
+  namespace: felix
   labels:
     app: nginx
 spec:
@@ -17,9 +17,6 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: ambienttraining.azurecr.io/nginx-demo:master-30
+        image: felixschul/nginx-demo
         ports:
         - containerPort: 80
-      imagePullSecrets:
-      # https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/#create-a-secret-in-the-cluster-that-holds-your-authorization-token
-      - name: regcred
