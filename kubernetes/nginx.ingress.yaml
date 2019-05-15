@@ -2,14 +2,15 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: test-ingress
+  namespace: felix
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: foo.bar.com
+    - host: cagedemo-0.ambient-innovation.com
       http:
         paths:
           - path: /
             backend:
-              serviceName: nginx-test
+              serviceName: nginx-deployment
               servicePort: 8080

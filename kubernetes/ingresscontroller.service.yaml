@@ -18,4 +18,4 @@ spec:
     - name: https
       port: 443
       targetPort: https
-  loadBalancerIP: 52.168.0.219
+  loadBalancerIP: 52.178.117.116
